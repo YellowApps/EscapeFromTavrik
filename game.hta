@@ -1,0 +1,33 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=9">
+  <style>
+	body{
+		background: white;
+		color: black;
+		cursor: default;
+		font: 16px Arial;
+	}
+  </style>
+  <title>Escape From Tavrik</title>
+  <hta:application
+  id=app
+  applicationName="yellowapps.escapefromtavrik.game"
+  caption=yes
+  innerBorder=yes
+  selection=no
+  scroll=no
+  contextmenu=no
+  navigable=yes
+  maximizeButton=no
+  icon="icon.ico" />
+  <script src="wscript.js"></script>
+  <script>resize(743, 600)</script>
+</head>
+<body>
+  <script src="gamelib.js"></script>
+	<script src="main.js"></script>
+  <button onclick="eval(prompt('Введите команду: ',''))">Выполнить команду</button><br>
+</body>
+</html>

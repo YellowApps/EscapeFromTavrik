@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+	<head>
+	</head>
+	<body>
+		<script src="gamelib.js"></script>
+		<script>
+			gamelib.init(7, 5, 100, "block.default", "textures");
+
+			var player = new gamelib.entity("entity.player", 0, 0, "player");
+
+			player.bind("w", "s", "a", "d");
+
+			gamelib.block.set("block.stone", 5, 2);
+			gamelib.block.draw();
+		</script>
+	</body>
+</html>

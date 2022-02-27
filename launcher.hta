@@ -1,0 +1,71 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=9">
+  <style>
+  	body{
+  		background: #ccc;
+  		color: black;
+  		cursor: default;
+  		padding: 2px;
+  		font: 16px Arial;
+  	}
+    button{
+      background: yellow;
+      color: black;
+      padding: 30px;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      margin: 10px;
+    }
+    button:hover{
+      background: orange;
+      font-size: 200%;
+    }
+  </style>
+  <title>Escape From Tavrik</title>
+  <hta:application
+  id=app
+  applicationName="yellowapps.escapefromtavrik.launcher"
+  caption=yes
+  innerBorder=yes
+  selection=no
+  scroll=no
+  contextmenu=no
+  navigable=yes
+  icon="icon.ico"  />
+  <script src="wscript.js"></script>
+  <script>resize(700, 500)</script>
+</head>
+<body>
+  <div id="ver">v0.0.2 Alpha</div>
+  <center>
+    <h1 style="font-size: 400%">Escape From Tavrik</h1>
+    <div id="splash" style="color: #4a3ea0; font-size: 130%">Включите JavaScript, чтобы играть.</div><br><br>
+    <button id="play">Играть</button>
+    <button id="bug">Нашли баг?</button>
+    <button id="exit">Выход</button>
+  </center>
+	<script>
+    var splashes = ["Эта надпись никогда не появится",
+      "Привет!", "Не играй в эту игру!", "Читы разрешены!", "2 + 2 = 22!", "3,63747 пользователя по всему миру!",
+      "Заклей камеру скотчем!", "Текстуры нарисованы в Paint!", "Кривой дизайн!", "Ужасная графика!", "Используется GameLib!",
+      "Иди учить уроки!", "Выпрями спину, не сутулься!", "https://yellowapps.github.io", "Много багов!", "ОЧЕНЬ много багов!"];
+
+    splash.innerHTML = splashes[Math.floor(Math.random()*splashes.length) + 1];
+
+    play.onclick = function(){
+      var shell = WScript.CreateObject("WScript.Shell");
+      shell.Run("game.hta");
+      shell.AppActivate("game.hta");
+      window.close();
+    }
+
+    bug.onclick = function(){
+      alert("Ну и что? Я тоже нашёл!");
+    }
+
+    exit.onclick = function(){ window.close() };
+	</script>
+</body>
+</html>

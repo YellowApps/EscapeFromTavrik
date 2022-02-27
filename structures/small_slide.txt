@@ -1,0 +1,3 @@
+"block.diagonal_line_left", x, y
+"block.arch", x+1, y
+"block.diagonal_line_right", x+2, y
