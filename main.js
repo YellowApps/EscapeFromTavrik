@@ -8,7 +8,7 @@ function getStruct(name){
 gamelib.init(14, 10, 50, "block.default", "textures");
 
 var player = new gamelib.entity("entity.player", 0, 0, "player");
-var enemy = new gamelib.entity("entity.default", 7, 5, "enemy");
+var enemy = new gamelib.entity("entity.security_guard", 7, 5, "enemy");
 
 player.bind("w", "s", "a", "d");
 enemy.goto("player", 500, function(){
