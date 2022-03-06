@@ -1,0 +1,2 @@
+"block.puddle_top", x, y
+"block.puddle_bottom", x, y+1
