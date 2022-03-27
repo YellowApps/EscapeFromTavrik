@@ -1,32 +1,18 @@
 <!doctype html>
 <html>
 	<head>
-		<meta charset="utf-8">
-		<title>Escape From Tavrik</title>
-		<style>
-			html, body{
-				font: 18px Arial;
-				background: skyblue;
-			}
-			a{
-				text-decoration: none;
-				color: inherit;
-			}
-			button{
-				padding: 7px;
-				margin: 15px;
-				background: yellow;
-			}
-			button:hover{
-				background: orange;
-				text-decoration: underlined;
-			}
-		</style>
 	</head>
 	<body>
-		<center>
-			<h1>Escape From Tavrik</h1>
-			<iframe src="README.md" type="text/html" width=500 height=400></iframe><br><br>
-			<button><a href="eftp.exe" download="EscapeFromTavrikPortable.exe">Скачать EXE</a><button><a href="https://github.com/YellowApps/EscapeFromTavrik/archive/refs/heads/main.zip" download="EscapeFromTavrik.zip">Скачать ZIP</a></button>
+		<script src="gamelib.js"></script>
+		<script>
+			gamelib.init(7, 5, 100, "block.default", "textures");
+
+			var player = new gamelib.entity("entity.player", 0, 0, "player");
+
+			player.bind("w", "s", "a", "d");
+
+			gamelib.block.set("block.stone", 5, 2);
+			gamelib.block.draw();
+		</script>
 	</body>
 </html>

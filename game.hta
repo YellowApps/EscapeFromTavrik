@@ -12,22 +12,31 @@
   </style>
   <title id="ttl">Escape From Tavrik</title>
   <hta:application
-  id=app
-  applicationName="yellowapps.escapefromtavrik.game"
-  caption=yes
-  innerBorder=yes
-  selection=no
-  scroll=no
-  contextmenu=no
-  navigable=yes
-  maximizeButton=no
-  icon="icon.ico" />
+    id=app
+    applicationName="yellowapps.escapefromtavrik.game"
+    caption=yes
+    innerBorder=yes
+    selection=no
+    scroll=no
+    contextmenu=no
+    navigable=yes
+    maximizeButton=no
+    icon="icon.ico" />
   <script src="wscript.js"></script>
-  <script>resize(743, 600)</script>
+  <script>resize(743, 620)</script>
 </head>
 <body>
   <script src="gamelib.js"></script>
-	<script src="main.js"></script>
-  <button onclick="eval(prompt('Введите команду: ',''))">Выполнить команду</button><br>
+  <script src="bclib.js"></script>
+  <script src="main.js"></script>
+
+  <button onclick="eval(prompt('Введите команду: ',''))">Выполнить команду</button>&nbsp;&nbsp;&nbsp;
+  <button onclick="shop()">Магазин</button>
+
+  <div id="ind" style="border: solid 1px black;">
+    Баланс: <span id="balance">Ошибка</span> руб.
+  </div>
+
+  <div id="desktop"></div><div id="windows"></div>
 </body>
 </html>

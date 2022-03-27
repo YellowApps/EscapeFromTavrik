@@ -1,0 +1,8 @@
+[
+{
+	"name": "Гречка",
+	"icon": "textures/null.png",
+	"price": 200,
+	"onbuy": "alert('И ты тоже?')"
+}
+]
