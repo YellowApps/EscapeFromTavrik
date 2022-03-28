@@ -8,7 +8,7 @@ argsa.shift();
 argsa.forEach(function(v, n, a){ a[n] = a[n].replaceAll(" ", "") });
 var args = {};
 for(var i in argsa){
-    var a = argsa[i].split(":");
+    var a = argsa[i].split("=");
     args[a[0]] = a[1]
 };
 for(var i in args){
@@ -17,7 +17,7 @@ for(var i in args){
       window.alevel = +args[i];
       break;
     }
-    case("debugmode"): {
+    case("debug"): {
       window.debugMode = !!args[i];
       break;
     }
@@ -49,13 +49,17 @@ if(window.alevel){
 ttl.innerHTML += " - Уровень " + level;
 
 //Просто переменные и функции
+var balance = {};
+
 function getStruct(name){
   return fs.OpenTextFile("structures/" + name + ".txt", 1).ReadAll()
 }
 
 var money = +fs.OpenTextFile("config\\money.dat", 1).ReadAll();
+var items = JSON.parse(fs.OpenTextFile("config\\items.json", 1).ReadAll());
 
 function setMoney(){
+  balance.innerHTML = money;
   var m = fs.OpenTextFile("config\\money.dat", 2);
   m.Write(money);
   m.Close();
@@ -66,25 +70,81 @@ window.onload = function(){
   balance.innerHTML = money;
 }
 
+function setItems(){
+  var it = fs.OpenTextFile("config\\items.json", 2);
+  it.Write(JSON.stringify(items));
+  it.Close();
+}
+
+if(window.debugMode){
+  money = Infinity;
+  level = -9999999;
+  ttl.innerHTML = "Escape From Tavrik - Уровень 0 (Режим отладки)"
+  setMoney();
+  for(var i in items){ items[i].player = true; }
+  setItems();
+}
+
 function shop(){
   clearInterval(securityGuard.entmiid);
 
-  createWindow("Магазин", "<div id='shopDiv'></div><br><br><button id='okBtn'>OK</button>");
+  createWindow("Магазин", "<div id='shopDiv'></div><br><br><button id='okBtn'>OK</button><button onclick='clicker()'>Пополнить баланс</button>");
 
-  var items = JSON.parse(fs.OpenTextFile("config\\shop.json", 1).ReadAll());
   for(var i in items){
     var item = items[i];
 
-    eval("window.BuyItem" + i + " = function(){" + item.onbuy + "}");
+    eval("window.BuyItem" + i + " = function(){" + item.onbuy + "; items[" + i + "].player = true; setItems(); }");
 
-    var html = "<div style='border: solid 1px black; padding: 2px; margin: 2px;'>";
-    html += "<img src='" + item.icon + "' width=20 height=20>&nbsp;&nbsp;" + item.name + "&nbsp;&nbsp;&nbsp;" + item.price + " руб.&nbsp;&nbsp;&nbsp;";
+    var html = "<div style='border: solid 1px black; padding: 2px; margin: 2px;' title='" + item.description + "'>";
+    html += "<img src='textures/" + item.icon + ".png' width=20 height=20>&nbsp;&nbsp;" + item.name + "&nbsp;&nbsp;&nbsp;" + item.price + " руб.&nbsp;&nbsp;&nbsp;";
     html += "<button onclick='if(money >= " + item.price + "){window.money -= " + item.price + "; setMoney();balance.innerHTML = money; BuyItem" + i + "()}else{alert(\"Деняк нету!\")}'>Купить</button>";
 
     shopDiv.innerHTML += html;
   }
 
   okBtn.onclick = function(){
+    securityGuard.goto("player", 500 - level, function(){
+      player.kill();
+      alert("Вы проиграли");
+      location.reload();
+    });
+    bclib.util.close();
+  }
+}
+
+function inventory(){
+  clearInterval(securityGuard.entmiid);
+
+  createWindow("Инвентарь", "<div id='itemsDiv'></div><br><br><button id='okBtn'>OK</button>");
+
+  for(var i in items){
+    var item = items[i];
+
+    if(item.player){
+      eval("window.UseItem" + i + " = function(){" + item.onuse + "; items[" + i + "].player = " + !item.disposable + "; setItems(); }");
+
+      var html = "<div style='border: solid 1px black; padding: 2px; margin: 2px;' title='" + item.description + "'>";
+      html += "<img src='textures/" + item.icon + ".png' width=20 height=20>&nbsp;&nbsp;" + item.name + "&nbsp;&nbsp;&nbsp;";
+      html += "<button onclick='UseItem" + i + "(); bclib.util.close(); inventory();'>Использовать</button>";
+
+      itemsDiv.innerHTML += html;
+    }
+  }
+
+  okBtn.onclick = function(){
+    securityGuard.goto("player", 500 - level, function(){
+      player.kill();
+      alert("Вы проиграли");
+      location.reload();
+    });
+    bclib.util.close();
+  }
+}
+
+function clicker(){
+  createWindow("Кликер", "<img style='margin: 16px;' title='Нажми меня' src='textures/item.coin.png' width=70 height=70 onclick='money += 10; setMoney();'><br><button id='closeBtn'>Закрыть</button>");
+
+  closeBtn.onclick = function(){
     securityGuard.goto("player", 500 - level, function(){
       player.kill();
       alert("Вы проиграли");
@@ -134,4 +194,10 @@ for(var i = 0; i < gamelib.random(0, 100); i++){
 
 for(var j = 0; j < gamelib.random(0, 5); j++){
   gamelib.block.build(getStruct("puddle"), [gamelib.random(1, gamelib.width - 4), gamelib.random(2, gamelib.height - 5)]);
+}
+
+for(var j = 0; j < gamelib.random(3, 5); j++){
+  var fw = new gamelib.entity("entity.fat_weasel", gamelib.random(1, gamelib.width - 4), gamelib.random(2, gamelib.height - 5), "fat_weasel_" + i);
+
+  fw.goto([gamelib.width / 2, gamelib.height / 2], 400, function(){ fw.moveTo(-1, -1) });
 }

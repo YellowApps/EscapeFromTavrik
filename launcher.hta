@@ -20,7 +20,7 @@
     }
     button:hover{
       background: orange;
-      font-size: 200%;
+      font-size: 150%;
     }
   </style>
   <title>Escape From Tavrik</title>
@@ -38,13 +38,13 @@
   <script>resize(700, 500)</script>
 </head>
 <body>
-  <div id="ver">v0.0.2 Alpha</div>
+  <div id="ver">v0.0.4 Alpha</div>
   <center>
     <h1 style="font-size: 400%">Escape From Tavrik</h1>
     <div id="splash" style="color: #4a3ea0; font-size: 130%">Включите JavaScript, чтобы играть.</div><br><br>
     <button id="play">Играть</button>
     <button id="bug">Нашли баг?</button>
-    <button id="exit">Выход</button>
+    <button id="cmdline">Параметры CMD</button>
   </center>
 	<script>
     var splashes = ["Эта надпись никогда не появится",
@@ -65,7 +65,13 @@
       location.href = "http://f0615718.xsph.ru/chat/group.php?id=eftbug&login=user" + new Date().getTime();
     }
 
-    exit.onclick = function(){ window.close() };
+    cmdline.onclick = function(){
+      var shell = WScript.CreateObject("WScript.Shell");
+      var cla = prompt("Введите параметры командной строки: ", "");
+      shell.Run("game.hta " + cla);
+      shell.AppActivate("game.hta");
+      window.close();
+    }
 	</script>
 </body>
 </html>
